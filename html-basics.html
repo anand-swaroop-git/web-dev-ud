@@ -1,0 +1,72 @@
+<br>
+
+<!-- Bold in HTML =  -->
+<b>This is a bold text</b>
+
+<br>
+<br>
+
+
+This is a <b>bold</b> word
+
+<br>
+<br>
+
+<!-- Italics in HTML -->
+<em>This is italics.</em>
+
+<br>
+<br>
+
+<!-- HTML Attributes: -->
+This is my technical  <a href="https://startedlate.com">blog </a> website!
+
+<br>
+<br>
+
+<!-- Image Tags -->
+This is an inline<image src="https://t1.ftcdn.net/jpg/00/33/14/20/400_F_33142067_tBluSThf0t5c7SJgGQ5c2ZvK3rumgLcQ.jpg" alt="Emoticon" height="20" width="30"> emoticon image! Please note that the image tag is a void tag, meaning there is no closing tag.
+    
+<br>
+<br>
+
+<!-- Paragraph Tag -->
+<p>This is a block of paragraph text.</p>
+<p>This is another block of paragraph text.</p>
+
+
+
+<!-- Form Tag -->
+Simply the form tag does nothing. Using the input tag, you get to see the input field to type something in it however, the URL just gets a "?" appended in the end and no query parameter is passed.
+<form>
+<input>    
+</form>
+
+<br>
+
+
+<!-- But if you give a name attribute to the input tag, the query is passed after the "?" above and the name of that query parameter is the value of the name attribute you give to the input tag -->
+The search box which will pass the parameter with the name "q"
+<form>
+<input type="text" name="q">    
+</form>
+
+<br>
+Since this is inconvenient for the users to press enter while submitting anything in the above form, lets add an input attribute of type "Submit".
+<form>
+<input type="text" name="q">
+<input type="Submit">    
+</form>
+
+<br>
+
+Now, a problem with the above form is that it submits to itself. To avoid this, let's add an action attribute to the above form:
+<form action="http://www.google.com/search">
+<input type="text" name="q">
+<input type="Submit">    
+</form>
+
+<br>
+
+
+
