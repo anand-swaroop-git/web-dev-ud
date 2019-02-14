@@ -3,19 +3,21 @@
 
 import webapp2
 
-# Adding the simple search engine logic with the help of a form
+# Adding another handler named "/testform" so that we can pass the query parameter to "/testform"
 form = """
-<form action="http://www.google.com/search">
+<form action="/testform">
 <input name="q">
 <input type="submit">
 </form>
 """
 
-
-
 class MainPage(webapp2.RequestHandler):
     def get(self):
-    	self.response.headers['Content-Type'] = 'text/html' # So that the browser can render the HTML
-        self.response.write(form) # Printing the form this time instead of "Hello World"
+    	self.response.out.write(form) # Printing the form this time instead of "Hello World"
 
-app = webapp2.WSGIApplication([('/', MainPage)], debug=True)
+class TestHandler(webapp2.RequestHandler): #New Handler
+    def get(self):
+    	q = self.request.get("q") # This will grab the query "q" parameter from request.get and store it in variable "q"
+        self.response.out.write(q) # Printing the "q" from above this time instead of form which was printed earlier. 
+
+app = webapp2.WSGIApplication([('/', MainPage),('/testform', TestHandler)], debug=True)
