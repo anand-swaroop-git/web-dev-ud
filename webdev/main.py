@@ -17,7 +17,17 @@ class MainPage(webapp2.RequestHandler):
 
 class TestHandler(webapp2.RequestHandler): #New Handler
     def get(self):
-    	q = self.request.get("q") # This will grab the query "q" parameter from request.get and store it in variable "q"
-        self.response.out.write(q) # Printing the "q" from above this time instead of form which was printed earlier. 
+    	self.response.headers['Content-Type'] = 'text/plain' # So that browser doesn't render the server response
+        self.response.out.write(self.request) # This time, we want to print the complete GET request which will show us ==> GET /testform?q=whatever as the first line 
 
 app = webapp2.WSGIApplication([('/', MainPage),('/testform', TestHandler)], debug=True)
+
+# Output of the above program is below:
+# GET /testform?q=whatever HTTP/1.1
+# Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
+# Accept-Language: en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7,hi;q=0.6
+# Host: localhost:10080
+# Referer: http://localhost:10080/
+# Upgrade-Insecure-Requests: 1
+# User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36
+# X-Appengine-Country: ZZ
