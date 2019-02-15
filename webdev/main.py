@@ -1,41 +1,30 @@
 #!/usr/bin/env python
-# https://webapp2.readthedocs.io/en/latest/
 
 import webapp2
 
-# Adding attribute "method" in the form to "post". By default, this method is get and this was the reason we were not required to explicitly set it to get.
+# Removed the action of submitting the query parameter to the TestHandler, the TestHandler definition itself as well as the URL mapping in the last line
+# Also added three input boxes to enter the DOB
+# At this point, the webapp will accept whatever parameter user has passed in and will greet the user with a "Thanks" message.
+
 form = """
-<form method="post" action="/testform"> 
-<input name="q">
+<form method="post">
+    What is your birthday?
+    <br>
+    <label>Month<input type="text" name="month"></label>
+    <label>Day<input type="text" name="day"></label>
+    <label>Year<input type="text" name="year"></label>
+    <br>
+    <br>
 <input type="submit">
 </form>
 """
 
 class MainPage(webapp2.RequestHandler):
     def get(self):
-    	self.response.out.write(form) # Printing the form this time instead of "Hello World"
+    	self.response.out.write(form)           # Printing the form
+    
+    def post(self):             # Adding the post function here since we changed the method to post
+    	self.response.out.write("Thanks! That's a totally valid day!") 
 
-class TestHandler(webapp2.RequestHandler): #New Handler
-    def post(self): # Since we have changed the method in line #8 to post, we have to make the corresponding change to handler as well to avoid "method not allowed" errror. HTTP 405
-    	self.response.headers['Content-Type'] = 'text/plain'    # Since we have changed the method to post, we want to see complete request. Our query parameter 'q' will come after
-        self.response.out.write(self.request)                   # the HTTP request headers
+app = webapp2.WSGIApplication([('/', MainPage)], debug=True)
 
-app = webapp2.WSGIApplication([('/', MainPage),('/testform', TestHandler)], debug=True)
-
-# Sample Output:
-# POST /testform HTTP/1.1
-# Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8
-# Accept-Language: en-IN,en-GB;q=0.9,en-US;q=0.8,en;q=0.7,hi;q=0.6
-# Cache-Control: max-age=0
-# Content-Length: 13
-# Content-Type: application/x-www-form-urlencoded
-# Content_Length: 13
-# Content_Type: application/x-www-form-urlencoded
-# Host: localhost:10080
-# Origin: http://localhost:10080
-# Referer: http://localhost:10080/
-# Upgrade-Insecure-Requests: 1
-# User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/71.0.3578.98 Safari/537.36
-# X-Appengine-Country: ZZ
-
-# q=who+are+you
