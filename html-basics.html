@@ -68,5 +68,110 @@ Now, a problem with the above form is that it submits to itself. To avoid this, 
 
 <br>
 
+Lets now add a new "type" for input tag which is "password". Whenever the user types in something in the box, they will be shown as dots, however, the problem with this is that the text user has entered will be clearly visible in the URL.
 
+<form>
+    <input type="password" name="q">
+    <input type="Submit">    
+</form>
 
+<br>
+
+Another new "type" for input tag is "checkbox" as shown below. Note - If you select the checkbox and click on Submit, the parameter which is passed on is this - ?q=on. If you do not select the checkbox and press submit, no parameter is passed and we just get "?"
+<form>
+    <input type="checkbox" name="q">
+    <input type="Submit">    
+</form>
+
+<br>
+
+Multiple checkboxes now. Select any combination and notice the query parameter and how it changes:
+<form>
+    <input type="checkbox" name="q">
+    <input type="checkbox" name="r">
+    <input type="checkbox" name="s">
+    <br>
+    <input type="Submit">    
+</form>
+
+<br>
+
+Lets now add another "type" for input tag which is "radio" buttons. 
+<form>
+    <input type="radio" name="q">
+    <input type="radio" name="r">
+    <input type="radio" name="s">
+    <br>
+    <input type="Submit">    
+</form>
+
+<br>
+
+The problem with the above approach of using radio buttons is, since all the radio buttons have different name in the input tag (refer source code), they are not acting as a group. If we give the same name to all the three, they will start acting as a group and we will be able to select only one out of three which is the normal expectation from radio buttons:
+<form>
+    <input type="radio" name="q">
+    <input type="radio" name="q">
+    <input type="radio" name="q">
+    <br>
+    <input type="Submit">    
+</form>
+
+<br>
+
+The above example is working fine however, if you notice, whatever radio button you chose and then press enter, the query parameter being passed is only ?q=on which does not actually tell us which radio button the user clicked upon.
+To get over this, we used a new "type" for the input tag which is "value" (Refer source code).
+<form>
+    <input type="radio" name="q" value="first">
+    <input type="radio" name="q" value="second">
+    <input type="radio" name="q" value="third">
+    <br>
+    <input type="Submit">    
+</form>
+
+<br>
+If you notice, from the above, we now know which radio button the user clicked upon however, there isnt any way the user can understand what the buttons mean since they do not have any label.
+For this, there is a "label" element and this is how to use it (Refer source code):
+<form>
+    <label>
+        This 
+        <input type="radio" name="q" value="first">
+    </label>
+    <label>
+        That
+        <input type="radio" name="q" value="second">
+    </label>
+    <label>
+        Whatever
+        <input type="radio" name="q" value="third">
+    </label>
+    <br>
+    <input type="Submit">    
+</form>
+
+<br>
+
+Lets now talk about the dropdown menus. For this, we need to add another form element known as "select"
+<form>
+    <select name="q">        
+        <option>first</option>
+        <option>second</option>
+        <option>third</option>
+    </select>
+    <input type="Submit">    
+</form>
+
+<br>
+The downside of the above is, if you want a more descrptive text in the dropdown options and you want that text to supply some other query parameter instead of that text itself, then this will not work.
+To take care of this situation, we have an option attribute called "value". Please refer to the source code:
+<form>
+    <select name="q">        
+        <option value="one">first</option>
+        <option value="two">second</option>
+        <option value="three">third</option>
+    </select>
+    <input type="Submit">    
+</form>
+
+<br>
+<br>
+<br>
