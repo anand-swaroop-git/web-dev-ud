@@ -2,9 +2,7 @@
 
 import webapp2
 
-# Removed the action of submitting the query parameter to the TestHandler, the TestHandler definition itself as well as the URL mapping in the last line
-# Also added three input boxes to enter the DOB
-# At this point, if the user enters a valid DOB, he will be greeted with "Thanks" and if he enters incorrect entries, he will be re-presented the form.
+# Adding string substitution logic @line#14, writing a function to utilize string substitution @line#62
 
 form = """
 <form method="post">
@@ -13,6 +11,7 @@ form = """
     <label>Month<input type="text" name="month"></label>
     <label>Day<input type="text" name="day"></label>
     <label>Year<input type="text" name="year"></label>
+    <div style="color: red">%(error)s</div>
     <br>
     <br>
 <input type="submit">
@@ -60,8 +59,11 @@ def valid_year(year):
 
 
 class MainPage(webapp2.RequestHandler):
+    def write_form(self, error=""):       # Creating the write form function so that we could pass on the error as string substitution
+        self.response.out.write(form % {"error": error})
+
     def get(self):
-    	self.response.out.write(form)           # Printing the form
+    	self.write_form()           # Using the write form function from the above
     
     def post(self):             # Adding the post function here since we changed the method to post
     	user_month = valid_month(self.request.get('month'))         # Adding the validation logic
@@ -69,7 +71,7 @@ class MainPage(webapp2.RequestHandler):
     	user_year = valid_year(self.request.get('year'))        # Adding the validation logic
 
         if not (user_month and user_day and user_year): # If the input voilates any of the above three functions (validation logic), the user will be re-presented the form through below line:
-            self.response.out.write(form)
+            self.write_form("That doesn't look valid to me, friend.")
         else:
             self.response.out.write("Thanks! That's a totally valid day!")  # Say thanks to the user
 
