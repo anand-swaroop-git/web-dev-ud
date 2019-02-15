@@ -2,15 +2,15 @@
 
 import webapp2
 
-# Adding string substitution logic @line#14, writing a function to utilize string substitution @line#62
+# Preserving userinput in case any of the userinput is incorrect
 
 form = """
 <form method="post">
     What is your birthday?
     <br>
-    <label>Month<input type="text" name="month"></label>
-    <label>Day<input type="text" name="day"></label>
-    <label>Year<input type="text" name="year"></label>
+    <label> Month <input type=""text" name="month" value="%(month)s"> </label>
+    <label> Day <input type=""text" name="day" value="%(day)s"> </label>
+    <label> Year <input type=""text" name="year" value="%(year)s"> </label>
     <div style="color: red">%(error)s</div>
     <br>
     <br>
@@ -59,19 +59,23 @@ def valid_year(year):
 
 
 class MainPage(webapp2.RequestHandler):
-    def write_form(self, error=""):       # Creating the write form function so that we could pass on the error as string substitution
-        self.response.out.write(form % {"error": error})
+    def write_form(self, error="", month="", day="", year=""):       # Adding other userinput parameters
+        self.response.out.write(form % {"error" : error, "month" : month, "day" : day, "year" : year})
 
     def get(self):
     	self.write_form()           # Using the write form function from the above
     
     def post(self):             # Adding the post function here since we changed the method to post
-    	user_month = valid_month(self.request.get('month'))         # Adding the validation logic
-    	user_day = valid_day(self.request.get('day'))       # Adding the validation logic
-    	user_year = valid_year(self.request.get('year'))        # Adding the validation logic
+    	user_month = self.request.get('month')
+        user_day = self.request.get('day')
+        user_year = self.request.get('year')
 
-        if not (user_month and user_day and user_year): # If the input voilates any of the above three functions (validation logic), the user will be re-presented the form through below line:
-            self.write_form("That doesn't look valid to me, friend.")
+        month = valid_month(user_month)
+        day = valid_day(user_day)
+        year = valid_year(user_year)
+
+        if not (month and day and year): # If the input voilates any of the above three functions (validation logic), the user will be re-presented the form through below line:
+            self.write_form("That doesn't look valid to me, friend.", user_month, user_day, user_year) # Passing userinputs to preserve what the user has typed in, in case the input fails validation
         else:
             self.response.out.write("Thanks! That's a totally valid day!")  # Say thanks to the user
 
