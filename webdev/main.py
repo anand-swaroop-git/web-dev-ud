@@ -2,7 +2,10 @@
 
 import webapp2
 
-# Implementing HTML escaping to control userinput
+# Adding the following three things:
+# Thanks Handler so that once the user submits successfully, the server redirects him to a "Thanks" page
+# Add the "/thanks" URL mapping
+# Redirect to "/thanks" URL
 
 form = """
 <form method="post">
@@ -81,7 +84,11 @@ class MainPage(webapp2.RequestHandler):
         if not (month and day and year): # If the input voilates any of the above three functions (validation logic), the user will be re-presented the form through below line:
             self.write_form("That doesn't look valid to me, friend.", user_month, user_day, user_year) # Passing userinputs to preserve what the user has typed in, in case the input fails validation
         else:
-            self.response.out.write("Thanks! That's a totally valid day!")  # Say thanks to the user
+            self.redirect("/thanks")    # Implementing redirection to /thanks
 
-app = webapp2.WSGIApplication([('/', MainPage)], debug=True)
+class ThanksHandler(webapp2.RequestHandler):    # Adding the ThanksHandler
+    def get(self):
+        self.response.out.write("Thanks! That's a totally valid day!")
+
+app = webapp2.WSGIApplication([('/', MainPage), ('/thanks', ThanksHandler)], debug=True)    # Adding /thanks URL mapping
 
